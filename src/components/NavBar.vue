@@ -31,7 +31,7 @@
         <div
           class="collapse navbar-collapse"
           id="navbarSupportedContent"
-          v-if="actualRoute == 'home'"
+          v-if="actualRoute == 'home' || actualRoute == ''"
         >
           <form class="d-flex ms-auto">
             <input

@@ -7,10 +7,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: { cryptoCoins: [], coinsDetail: [] },
   getters: {
-    SortedByDays(state) {
+    sortedByDays(state) {
       const { coinsDetail } = state;
       const lastDays = coinsDetail.slice(-7);
       return lastDays;
+    },
+    getSpecificCoin: (state) => (id_) => {
+      const { cryptoCoins } = state;
+      const specificCoin = cryptoCoins.find((coin) => coin.id === id_);
+      return specificCoin;
     },
   },
   mutations: {
