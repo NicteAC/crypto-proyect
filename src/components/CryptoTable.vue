@@ -11,13 +11,13 @@
       </thead>
       <tbody>
         <tr v-for="crypto in cryptoData" :key="crypto.id">
-          <td>{{ crypto.rank }}</td>
-          <td>{{ crypto.symbol }}</td>
-          <td>{{ crypto.name }}</td>
-          <td>
+          <td class="text-size">{{ crypto.rank }}</td>
+          <td class="text-size">{{ crypto.symbol }}</td>
+          <td class="text-size">{{ crypto.name }}</td>
+          <td class="text-size">
             <button
               type="button"
-              class="btn btn-info btn-sm text-white rounded-pill"
+              class="btn btn-info btn-sm text-white rounded-pill text-size"
               @click="getDetailCoin(crypto.id)"
             >
               Detalle
@@ -42,4 +42,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.text-size {
+  font-size: 13px;
+}
+</style>

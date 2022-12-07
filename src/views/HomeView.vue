@@ -1,24 +1,35 @@
 <template>
   <div class="home m-5">
-    <div class="container">
-      <cryptoTable :cryptoData="cryptoCoins" />
+    <div class="mb-5 container">
+      <cryptoTable :cryptoData="paginated_data" />
     </div>
     <nav aria-label="Page navigation example">
-      <ul class="pagination m-auto justify-content-center">
-        <li class="page-item me-2">
-          <a class="page-link rounded-circle" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item me-2">
-          <a class="page-link rounded-circle" href="#">1</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link rounded-circle" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
+      <div class="pagination m-auto justify-content-center">
+        <button
+          class="btn btn-outline-info rounded-circle me-2"
+          aria-label="Previous"
+          @click="navigatePages('Prev')"
+        >
+          <span aria-hidden="true">&laquo;</span>
+        </button>
+        <button
+          class="btn btn-outline-info rounded-circle me-2"
+          v-for="(pages, i) in pagination"
+          :key="i"
+          :class="i + 1 == actual_page ? 'active' : ''"
+        >
+          <span class="rounded-circle" href="#" @click="getDataByPage(i + 1)">{{
+            i + 1
+          }}</span>
+        </button>
+        <button
+          class="btn btn-outline-info rounded-circle"
+          aria-label="Next"
+          @click="navigatePages('Next')"
+        >
+          <span aria-hidden="true">&raquo;</span>
+        </button>
+      </div>
     </nav>
   </div>
 </template>
@@ -32,14 +43,53 @@ export default {
   components: {
     CryptoTable,
   },
+  data() {
+    return {
+      actual_page: 1,
+      max_elems: 15,
+      total_pages: 0,
+      paginated_data: [],
+      pagination: [],
+    };
+  },
   computed: {
     ...mapState(["cryptoCoins"]),
   },
-  created() {
-    this.getData();
+  async mounted() {
+    await this.getData();
+    this.getPaginatedCryptoData();
   },
   methods: {
     ...mapActions(["getData"]),
+    splitDataToPages(data_arr, pages) {
+      let splitted = [];
+      for (let i = 0; i < data_arr.length; i += pages) {
+        splitted.push(data_arr.slice(i, i + pages));
+      }
+      return splitted;
+    },
+    getPaginatedCryptoData() {
+      this.total_pages = Math.floor(this.cryptoCoins.length / this.max_elems);
+      this.pagination = this.splitDataToPages(this.cryptoCoins, this.max_elems);
+      this.paginated_data = this.pagination[this.actual_page - 1];
+    },
+    getDataByPage(page_) {
+      this.actual_page = page_;
+      this.getPaginatedCryptoData();
+    },
+    navigatePages(direction) {
+      if (direction == "Prev") {
+        if (this.actual_page > 1) {
+          this.actual_page = this.actual_page - 1;
+        }
+      }
+      if (direction == "Next") {
+        if (this.actual_page < this.total_pages) {
+          this.actual_page = this.actual_page + 1;
+        }
+      }
+      this.getPaginatedCryptoData();
+    },
   },
 };
 </script>
