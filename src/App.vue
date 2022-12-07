@@ -19,6 +19,9 @@ export default {
   updated() {
     this.actualRoute = this.$route.name;
   },
+  created() {
+    this.actualRoute = this.$route.name;
+  },
 };
 </script>
 
