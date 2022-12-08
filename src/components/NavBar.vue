@@ -14,16 +14,6 @@
 <script>
 export default {
   name: "NavBar",
-  data() {
-    return {
-      search: "",
-    };
-  },
-  methods: {
-    searchData(id_) {
-      this.$router.push({ name: "cripto-detail", params: { id: id_ } });
-    },
-  },
 };
 </script>
 
