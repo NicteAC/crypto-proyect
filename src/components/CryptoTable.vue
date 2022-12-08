@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <table class="table table-bordered border-info table-hover">
+    <table class="table table-bordered border-info table-hover bg-white">
       <thead>
         <tr>
           <th scope="col">Lugar</th>

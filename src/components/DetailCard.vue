@@ -10,9 +10,10 @@
           :title="info"
         ></i>
       </h5>
-      <p class="card-text">
+      <p v-if="detail != null" class="card-text">
         {{ detail }}
       </p>
+      <p class="mb-0" v-else>-</p>
     </div>
   </div>
 </template>

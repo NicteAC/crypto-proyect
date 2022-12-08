@@ -1,5 +1,5 @@
 <template>
-  <div class="home m-5">
+  <div class="home my-5">
     <div class="mb-5 container">
       <cryptoTable :cryptoData="paginated_data" />
     </div>

@@ -1,0 +1,54 @@
+@font-face {
+  font-family: "Monserrat";
+  src: url("../fonts/Montserrat-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  vertical-align: baseline;
+  font-family: "Monserrat", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+}
+body {
+  min-height: 100%;
+ 
+}
+.coin-simbol,
+.coin-rank {
+  font-size: 15px;
+  padding: 8px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+.coin-price {
+  font-size: 20px;
+  font-weight: bold;
+}
+.percentage-coin {
+  font-size: 15px;
+  padding: 8px;
+  letter-spacing: 1px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+.coin-rank {
+  width: max-content;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.button-pages {
+  height: 35px;
+  width: 35px;
+}

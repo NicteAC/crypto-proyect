@@ -1,92 +1,112 @@
 <template>
   <div class="container">
-    <div class="d-flex justify-content-between">
-      <h1 class="text-capitalize mt-3">
-        {{ this.$route.params.id }}
-        <span class="">{{ detailCoin.symbol }}</span>
-      </h1>
-      <div class="">
-        <div>
-          {{ formatUsd(detailCoin.priceUsd) }}
-          <span>{{ detailCoin.changePercent24Hr }}%</span>
+    <div v-if="coinDetail != undefined" class="">
+      <div class="d-flex justify-content-between align-items-center">
+        <h1 class="text-capitalize mt-3 d-flex align-items-start">
+          {{ this.$route.params.id }}
+          <span class="coin-simbol bg-light ms-3">{{ detailCoin.symbol }}</span>
+        </h1>
+        <div class="">
+          <p class="coin-price mb-0">
+            {{ formatUsd(detailCoin.priceUsd) }}
+            <span class="percentage-coin bg-info text-white ms-2"
+              >{{ formatNumbers(detailCoin.changePercent24Hr) }}%</span
+            >
+          </p>
         </div>
       </div>
+      <p class="text-start bg-success mb-0 text-white coin-rank">
+        Rank #{{ detailCoin.rank }}
+      </p>
+      <div class="mt-3 d-flex flex-wrap justify-content-between">
+        <div class="col-12 col-sm-4 mb-2">
+          <div class="pe-1">
+            <DetailCard
+              :title="`supply`"
+              :info="`Suministro disponible para el comercio.`"
+              :detail="formatNumbers(detailCoin.supply)"
+            />
+          </div>
+        </div>
+        <div class="col-12 col-sm-4 mb-2">
+          <div class="px-1">
+            <DetailCard
+              :title="`maxSupply`"
+              :info="`Cantidad total de activos emitidos`"
+              :detail="formatNumbers(detailCoin.maxSupply)"
+            />
+          </div>
+        </div>
+        <div class="col-12 col-sm-4 mb-2">
+          <div class="ps-1">
+            <DetailCard
+              :title="`marketCapUsd`"
+              :info="`Oferta x precio`"
+              :detail="formatUsd(detailCoin.marketCapUsd)"
+            />
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-4 mb-2">
+          <div class="pe-1">
+            <DetailCard
+              :title="`volumeUsd24Hr`"
+              :info="`Cantidad de volumen de operaciones representada en USD durante las últimas 24 horas`"
+              :detail="formatUsd(detailCoin.volumeUsd24Hr)"
+            />
+          </div>
+        </div>
+        <div class="col-12 col-sm-4 mb-2">
+          <div class="px-1">
+            <DetailCard
+              :title="`priceUsd`"
+              :info="`Precio ponderado por volumen basado en datos de mercado en tiempo real, traducido a USD`"
+              :detail="formatUsd(detailCoin.priceUsd)"
+            />
+          </div>
+        </div>
+        <div class="col-12 col-sm-4">
+          <div class="ps-1">
+            <DetailCard
+              :title="`vwap24Hr`"
+              :info="`Precio medio ponderado por volumen en las últimas 24 horas`"
+              :detail="formatUsd(detailCoin.vwap24Hr)"
+            />
+          </div>
+        </div>
+      </div>
+      <h2 class="mt-3">Historico {{ this.$route.params.id }}</h2>
+      <table class="mt-3 table table-bordered border-info table-hover bg-white">
+        <thead>
+          <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Precio USD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="crypto in sortedByDays" :key="crypto.date">
+            <td>{{ formatedDate(crypto.date) }}</td>
+            <td>{{ formatUsd(crypto.priceUsd) }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="text-start">Rank #{{ detailCoin.rank }}</div>
-    <div class="mt-3">
-      <div class="row">
-        <div class="col">
-          <DetailCard
-            :title="`supply`"
-            :info="`Suministro disponible para el comercio.`"
-            :detail="detailCoin.supply"
-          />
-        </div>
-        <div class="col">
-          <DetailCard
-            :title="`maxSupply`"
-            :info="`Cantidad total de activos emitidos`"
-            :detail="detailCoin.maxSupply"
-          />
-        </div>
-        <div class="col">
-          <DetailCard
-            :title="`marketCapUsd`"
-            :info="`Oferta x precio`"
-            :detail="formatUsd(detailCoin.marketCapUsd)"
-          />
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col">
-          <DetailCard
-            :title="`volumeUsd24Hr`"
-            :info="`Cantidad de volumen de operaciones representada en USD durante las últimas 24 horas`"
-            :detail="formatUsd(detailCoin.volumeUsd24Hr)"
-          />
-        </div>
-        <div class="col">
-          <DetailCard
-            :title="`priceUsd`"
-            :info="`Precio ponderado por volumen basado en datos de mercado en tiempo real, traducido a USD`"
-            :detail="formatUsd(detailCoin.priceUsd)"
-          />
-        </div>
-        <div class="col">
-          <DetailCard
-            :title="`vwap24Hr`"
-            :info="`Precio medio ponderado por volumen en las últimas 24 horas`"
-            :detail="formatUsd(detailCoin.vwap24Hr)"
-          />
-        </div>
-      </div>
+    <div class="" v-else>
+      <NotFound />
     </div>
-    <h2 class="mt-3">Historico {{ this.$route.params.id }}</h2>
-    <table class="mt-3 table table-bordered border-info table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Fecha</th>
-          <th scope="col">Precio USD</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="crypto in sortedByDays" :key="crypto.date">
-          <td>{{ formatedDate(crypto.date) }}</td>
-          <td>{{ formatUsd(crypto.priceUsd) }}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 
 <script>
-import DetailCard from "./DetailCard.vue";
+import DetailCard from "@/components/DetailCard.vue";
+import NotFound from "@/components/NotFound.vue";
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Tooltip } from "bootstrap";
 export default {
   name: "CoinDetail",
   components: {
     DetailCard,
+    NotFound,
   },
   props: ["id"],
   data() {
@@ -101,8 +121,8 @@ export default {
       return this.getSpecificCoin(this.id);
     },
   },
-  created() {
-    this.getData();
+  async created() {
+    await this.getData();
   },
   mounted() {
     new Tooltip(document.body, { selector: "[data-bs-toggle='tooltip']" });
@@ -124,6 +144,14 @@ export default {
         currency: "USD",
       });
       return formatter.format(usd_);
+    },
+    formatNumbers(value_) {
+      if (value_ != null && value_ != undefined) {
+        const formatter = new Intl.NumberFormat("en-US", {
+          maximumFractionDigits: 2,
+        });
+        return formatter.format(value_);
+      }
     },
   },
 };
