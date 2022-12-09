@@ -1,24 +1,15 @@
-# crypto-proyect
+# Proyecto criptomonedas
 
-## Project setup
-```
-yarn install
-```
+## Realizado con
 
-### Compiles and hot-reloads for development
 ```
-yarn serve
+Vue2, Vuex y RouterVue
 ```
 
-### Compiles and minifies for production
+### Api utilizada
+
 ```
-yarn build
+https://docs.coincap.io/
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+#### By Nicte 💜
